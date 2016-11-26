@@ -1,0 +1,56 @@
+---
+title: "Intentional homicide"
+author: "João Pedro Schmitt"
+date: "25 de novembro de 2016"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Intentional homicide
+
+Intentional homicide, number and rate per 100,000 at top countries at 2010 and 2011.
+
+## Homicide top countries at 2010 and 2011
+
+```{r fig.width=8, fig.height=4.5, fig.align='center', message=FALSE}
+library(dplyr)
+library(plotly)
+
+dataset = read.csv("dataset.csv")
+dt <- dataset %>% 
+    filter(Year == 2011) %>%
+    select(Country.or.Area, Count) %>% 
+    group_by(Country.or.Area) %>% 
+    summarise_each(funs(sum(Count))) %>% 
+    arrange(desc(Count)) %>%
+    as.data.frame()
+names(dt) <- c("Country", "Count2011")
+
+dt2 <- dataset %>% 
+     filter(Year == 2010 & Country.or.Area %in% dt$Country) %>%
+     select(Country.or.Area, Count) %>% 
+     group_by(Country.or.Area) %>% 
+     summarise_each(funs(sum(Count))) %>% 
+     arrange(desc(Count)) %>%
+     as.data.frame()
+names(dt2) <- c("Country", "Count2010")
+
+dt <- merge(x = dt, y = dt2, by.x = "Country", by.y = "Country")
+dt$Country = paste(substr(dt$Country, 0, 15), "...", sep = "")
+
+plot_ly(dt, 
+        y = ~as.character(Country), 
+        x = ~Count2010, 
+        type = "bar", 
+        name = "2010") %>%
+    add_trace(x = ~Count2011, name = "2011") %>%
+    layout(yaxis = list(title = ""), 
+           xaxis = list(title = "Incidents"), 
+           margin = list(l = 150))
+```
+
+
+## Thanks
