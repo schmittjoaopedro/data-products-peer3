@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Intentional homicide
 
-Intentional homicide, number and rate per 100,000 at top countries at 2010 and 2011.
+Intentional homicide, numbers of the top countries at 2010 and 2011.
 
 ## Homicide top countries at 2010 and 2011
 
