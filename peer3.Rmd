@@ -54,3 +54,5 @@ plot_ly(dt,
 
 
 ## Thanks
+
+The source code can be found [here](https://github.com/schmittjoaopedro/data-products-peer3)
